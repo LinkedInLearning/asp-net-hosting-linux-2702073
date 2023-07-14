@@ -7,7 +7,7 @@ Dies ist das Repository für den **LinkedIn Learning** Kurs `[COURSENAME]`. Den 
 [COURSEDESCRIPTION]
 
 ## Inhaltsverzeichnis
-Ein Inhaltsverzeichnis finden Sie, wenn Sie oben neben dem Dateinamen Readme.md auf das Menü-Symbol klicken:
+Ein Inhaltsverzeichnis finden Sie, wenn Sie oben neben dem Dateinamen README.md auf das Menü-Symbol klicken:
 
 ![grafik](https://github.com/LinkedInLearning/asp-net-hosting-linux-2702073/assets/43751391/881ca078-c37b-4743-94de-d59499d01336)
 
