@@ -30,6 +30,14 @@ sudo apt install openssh-server
 ```
 Nach dem Install läuft der Server gleich los, was man wiederum mit `systemctl status ssh` überprüfen kann.
 
+### Client-Software
+
+[Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/)
+
+[WinScp](https://winscp.net/eng/docs/lang:de)
+
+[Notepad++](https://notepad-plus-plus.org/)
+
 ### Schlüssel erzeugen
 
 ```
