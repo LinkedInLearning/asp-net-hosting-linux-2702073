@@ -113,8 +113,104 @@ APT::Periodic::AutocleanInterval "0";
 APT::Periodic::Unattended-Upgrade "1";
 ```
 
+## Mail-Notifications
 
+```
+sudo apt install msmtp ca-certificates
+```
+Zur Konfiguration muss man eine Datei /etc/msmtprc anlegen und folgendes einfügen:
+(Alles nach den Pfeilen <- darf nicht in die Datei mit übernommen werden.
+```
+# Allgemeine Optionen
+defaults
+auth           on
+tls            on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt  <- das wurde mit ca-certificates installiert. Überprüfen, ob die Datei existiert
+logfile        ~/.msmtp.log
+tls_starttls   off                                 <- Anpassen
+tls_certcheck  off                                 <- Zertifikat selbstsigniert = off, von einer öffentlichen CA = on
 
+# Konfiguration für benutzer@anbieter.com
+account        unattendedupgrades                  <- Der Account wurde mit UnattendedUpgrade angelegt
+host           mail.ihredomain.de                  <- Ihr Mailserver
+port           465                                 <- SMTP/SSL = 465, STARTTLS = 578
+from           <info@ihredomain.de>                <- Ihre Absender-Adresse
+user           serversupport@ihredomain.de         <- Ihr BenutzerAccount
+password       ihrpasswort                         <- Ihr Passwort
+
+# Standard Account für E-Mails
+account default : unattendedupgrades
+```
+### Test der Mailanbindung
+
+Statt empfaenger@mailserver.com muss Ihre Mailadresse rein.
+
+```
+echo -e "Subject: Testmail \n\n Nachricht kommt hier hin \n\n" |sendmail empfaenger@mailserver.com
+```
+
+## Nginx
+
+Dazu braucht es nur zwei Befehle:
+
+```
+sudo apt install nginx
+sudo ufw allow 'Nginx Full'
+```
+
+Danach sollte die Default-Seite von Nginx erscheinen, wenn man die IP-Adresse im Browser eingibt.
+
+Dann den Ordner `/var/www/html` komplett löschen. Das ist die Default-Seite. Dann /etc/nginx/sites-enabled/default öffnen und mit folgendem Code ersetzen:
+
+```
+# Default server configuration
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+return 404;
+}
+```
+Das heißt: jeder Request ohne Host Header wird einen 404 zurückliefern.
+
+### Verhindern der Server-Header mit nginx-Versionsnummer
+
+In /etc/nginx/nginx.conf:
+
+```
+http { 
+  ...
+  server_tokens off;
+  ...
+```
+### Nginx-Debugging
+
+Im Server-Block folgende zwei Zeilen:
+
+```
+rewrite_log on;
+error_log /var/log/nginx/deinesite.error_log debug;
+```
+
+**Achtung!**
+
+Der Log erzeugt extrem viel Output (200-500 Zeilen) pro Request. Auf keinen Fall auf einem System mit hoher Last ausprobieren. Und wenn doch, dann absolut kurzfristig.
+
+### Fehler wegen zu großer Header
+
+Wir hatten für eine Asp.net-Site folgenden Fehler im Debug-Log: 
+
+```
+upstream sent too big header while reading response header from upstream
+```
+
+Korrektur im Server-Block:
+
+```
+proxy_busy_buffers_size   512k;
+proxy_buffers   4 512k;
+proxy_buffer_size   256k;
+```
 
 ### Autor
 
