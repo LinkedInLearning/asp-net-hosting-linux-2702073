@@ -15,7 +15,7 @@ Disablen des root-Accounts:
 ```
 sudo passwd -l root
 ```
-Auch wenn ich meine Systeme mit root betreibe, versuche ich, im Folgenden die Anweisungen mit sudo anzugeben. Sollte es irgendwo einmal fehlen, merken Sie es daran, dass Sie die Berechtigung für eine bestimmte Aktion nicht haben. Manchmal kommen auch etwas merkwürdige Fehlermeldungen, weil ein Lock nicht gesetzt werden kann, oder ähnliches. In dem Fall: Wenn sudo fehlt, ergänzen Sie es einfach und schauen, ob der Befehl dann funktioniert.
+Auch wenn ich meine eigenen Systeme mit root betreibe, versuche ich, im Folgenden die Anweisungen mit sudo anzugeben. Das vorangestellte sudo schadet nicht, wenn Sie als root eingeloggt sind.
 
 ## SSH einrichten
 
