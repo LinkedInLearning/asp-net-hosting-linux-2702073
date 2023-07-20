@@ -178,6 +178,8 @@ return 404;
 ```
 Das heißt: jeder Request ohne Host Header wird einen 404 zurückliefern.
 
+Die folgenden Abschnitte über Nginx sind eine Ergänzung zum Lehrvideo und werden dort nicht besprochen.
+
 ### Verhindern der Server-Header mit nginx-Versionsnummer
 
 In /etc/nginx/nginx.conf:
