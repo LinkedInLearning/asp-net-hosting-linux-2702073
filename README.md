@@ -270,8 +270,31 @@ Abschließender Test:
 docker ps
 ```
 
+## Sql Server
 
+Erst einen Ordner anlegen:
+```
+sudo mkdir /var/opt/mssql
+sudo chmod 777 /var/opt/mssql 
+```
+Dann den Container laden:
 
+```
+docker run --name sqlexpress \
+ -e 'ACCEPT_EULA=Y' \
+ -e 'SA_PASSWORD=Hola$qlServer123' \
+ -e 'MSSQL_PID=Express' \
+ -v /var/opt/mssql:/var/opt/mssql \
+ --restart unless-stopped \
+ --network=host \
+ -d mcr.microsoft.com/mssql/server:2019-latest
+```
+
+Test mit 
+
+```
+docker ps
+```
 
 
 ### Autor
