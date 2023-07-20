@@ -296,8 +296,107 @@ Test mit
 docker ps
 ```
 
+## MariaDb
 
-### Autor
+```
+sudo apt update
+sudo apt install mariadb-server
+sudo mysql_secure_installation
+```
+mysql_secure-installation startet einen Assistenten. Die Beantwortung der Fragen sehen Sie im Video.
+
+Anlegen des admin-Accounts:
+
+```
+sudo mariadb
+GRANT ALL ON *.* TO 'admin'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+exit
+```
+
+Die Zeilen müssen Sie nacheinander eingeben, weil mariadb eine Db-Konsole öffnet.
+
+## Remote-Administration
+Wenn Sie später ein VPN für die Administration einrichten, benötigen Sie einen Benutzer, der aus dem Netzwerk stammt. Das richtet man so ein:
+
+```
+GRANT ALL ON *.* TO 'admin'@'10.1.1.%' IDENTIFIED BY 'ihrpassword' WITH GRANT OPTION;
+```
+
+Wenn Sie Ihr Subnetz auf 10.1.1.0/24 eingerichtet haben, kann sich der admin aus diesem Subnetz anmelden.
+
+Dazu müssen Sie die ensprechenden Ports innerhalb des Subnetzes freigeben:
+
+```
+sudo ufw allow from 10.1.1.0/24 to any port 3306
+sudo ufw allow from 10.1.1.0/24 to any port 1433
+```
+
+Port 3306 ist für MariaDb, Port 1433 für SqlServer.
+
+### OpenVPN
+
+[Ausführliche Beschreibung](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-18-04-de)
+
+Wenn Sie OpenVPN schon auf Windows-Servern genutzt haben: die Konfiguration funktioniert auch auf Linux (Zeilenenden in der Konfigurationsdatei auf Linux umstellen). 
+
+In der Datei /etc/sysctl.conf einfügen:
+```
+net.ipv4.ip_forward=1
+```
+
+Der ipv4 forward ist notwendig, um die Requests im lokalen Netzwerk zu sehen.
+
+Ufw-Konfiguration ergänzen:
+```
+DEFAULT_FORWARD_POLICY="ACCEPT"
+```
+
+dann das OpenVPN-Port öffnen:
+
+```
+sudo ufw allow 1194/udp
+```
+
+
+Neustart von ufw ist mit 
+
+```
+sudo ufw disable
+sudo ufw enable
+```
+
+möglich.
+
+### Konfigurationsdateien
+Die Konfigurationsdatei auf dem Server heißt /etc/openvpn/xxxx.conf, wobei xxxx der Name der Konfiguration ist, also zum Beispiel _server_.
+
+Ein funktionierendes Beispielpaar für eine Server- und Client-Konfiguration finden Sie hier:
+
+[server.conf](https://github.com/LinkedInLearning/asp-net-hosting-linux-2702073/blob/main/client.ovpn)
+
+[client.ovpn](https://github.com/LinkedInLearning/asp-net-hosting-linux-2702073/blob/main/client.ovpn)
+
+### EasyRsa
+
+Das ist Script, die Sie unter Linux ausführen können. Sie laden das Script von [Github](https://github.com/OpenVPN/easy-rsa). Folgen Sie der Dokumentation auf Github oder der [ausführlichen Beschreibung](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-18-04-de).
+
+### OpenVPN Start
+
+```
+systemctl start openvpn@server
+```
+
+Die Endung @server matcht mit dem Namen der .conf-Datei.
+
+Überprüfen:
+
+```
+systemctl status openvpn@server
+ip addr show tun0
+```
+
+## Autor
 
 Mirko Matytschak
 
