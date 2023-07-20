@@ -217,6 +217,61 @@ proxy_buffers   4 512k;
 proxy_buffer_size   256k;
 ```
 
+## Docker
+
+[Dokumentation der Docker-Installation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+
+### Tools installieren
+
+```
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg
+```
+
+### Key anlegen
+
+```
+wget https://download.docker.com/linux/ubuntu/gpg
+sudo gpg -o /etc/apt/keyrings/docker.gpg --dearmor ./gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+rm gpg
+```
+### Paketquelle installieren
+
+```
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+### Installation der Docker Engine und Tools
+
+```
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+Test
+
+```
+sudo docker ps
+```
+Gegenwärtigen Benutzer zum Docker-User machen:
+
+```
+sudo usermod -aG docker $USER
+```
+
+Abschließender Test:
+
+```
+docker ps
+```
+
+
+
+
+
 ### Autor
 
 Mirko Matytschak
