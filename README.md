@@ -395,6 +395,40 @@ Die Endung @server matcht mit dem Namen der .conf-Datei.
 systemctl status openvpn@server
 ip addr show tun0
 ```
+## Certbot
+
+### Installation
+
+```
+sudo apt-get update 
+sudo apt-get install certbot python3-certbot-nginx
+```
+### Einrichten eines Zertifikats
+Es muss eine Site mit Http erreichbar sein. Die Server-Datei für Nginx muss entsprechend eingerichtet sein. Minimalkonfiguration aus dem Beispiel:
+
+```
+server
+{
+    server_name test.sv4.laykit.de;
+    root /var/www/testsite/app;
+	index index.html;
+
+    listen 80;
+}
+```
+
+## ASP.NET
+
+Installation:
+```
+sudo apt install dotnet6
+```
+Test
+
+```
+dotnet --version
+```
+
 
 ## Autor
 
