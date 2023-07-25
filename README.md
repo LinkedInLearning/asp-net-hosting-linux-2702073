@@ -429,6 +429,19 @@ Test
 dotnet --version
 ```
 
+## Installation der Anwendung
+
+Zum Entpacken können wir das .7z-Format (7zip), .zip (gzip) oder tar.gz verwenden. Bei den ersteren muss man das entsprechende Tool installieren, also 7zip oder gzip. Ich verwende 7zip, das ist extrem schnell. Das wird folgendermaßen installiert:
+
+```
+sudo apt install p7zip-full
+```
+Dann kann man mit 
+
+```
+7z x <dateiname.7z>
+```
+die Datei in den gegenwärtigen Ordner extrahieren.
 
 ## Autor
 
