@@ -377,9 +377,9 @@ Ein funktionierendes Beispielpaar für eine Server- und Client-Konfiguration fin
 
 [client.ovpn](https://github.com/LinkedInLearning/asp-net-hosting-linux-2702073/blob/main/client.ovpn)
 
-### EasyRsa
+### Easy-Rsa
 
-Das ist Script, die Sie unter Linux ausführen können. Zum Einrichten können Sie [dieser Beschreibung folgen](#anlegen-einer-ca).
+Das ist Script, die Sie unter Linux ausführen können. Zum Einrichten folgen Sie [dieser Beschreibung folgen](#anlegen-einer-ca) und dem Kapitel "Certificate Authority einrichten". Sie benötigen das Zertifikat der CA (ca.crt) auf der Client- und Serverseite sowie die beiden Dateien des Client-Zertifikats auf der Client-Seite.
 
 ### OpenVPN Start
 
