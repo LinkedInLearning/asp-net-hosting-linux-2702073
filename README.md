@@ -379,7 +379,7 @@ Ein funktionierendes Beispielpaar für eine Server- und Client-Konfiguration fin
 
 ### EasyRsa
 
-Das ist Script, die Sie unter Linux ausführen können. Sie laden das Script von [Github](https://github.com/OpenVPN/easy-rsa). Folgen Sie der Dokumentation auf Github oder der [ausführlichen Beschreibung](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-18-04-de).
+Das ist Script, die Sie unter Linux ausführen können. Zum Einrichten können Sie [dieser Beschreibung folgen](#anlegen-einer-ca).
 
 ### OpenVPN Start
 
