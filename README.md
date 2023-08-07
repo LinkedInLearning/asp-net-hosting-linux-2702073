@@ -443,13 +443,344 @@ Dann kann man mit
 ```
 die Datei in den gegenwärtigen Ordner extrahieren.
 
+## Server-Datei und Service-Konfiguration
+
+Für die Server-Datei für Nginx können Sie folgendes Template verwenden:
+
+```
+server {
+    listen        80;
+    server_name   www.meinhost.de;                   <-- Anpassen
+    location / {
+        proxy_pass         http://127.0.0.1:5000;    <-- Port muss dem Port in der .service-Datei matchen
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header   Connection keep-alive;
+        proxy_set_header   Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Ein Symbolic Link auf diese Datei muss im Verzeichnis `/etc/nginx/sites-enabled` angelegt werden. Dann Nginx testen und Konfiguration neu laden:
+
+```
+sudo nginx -t
+sudo nginx -s reload
+```
+
+Test, welches Port im 50xx-Bereich noch frei ist:
+
+```
+lsof -i -P -n | grep LISTEN | grep :50
+```
+
+Template für die Service-Datei:
+
+```
+[Unit]
+Description=IhreApp          <-- Name anpassen
+[Service]
+WorkingDirectory=/var/www/ihreapp/app <-- Pfad anpassen
+#ExecStartPre=/usr/bin/dotnet /var/www/waitforsqlserver/WaitForSqlServer.dll <-- Wenn Sql Server gebraucht wird
+ExecStart=/usr/bin/dotnet /var/www/dotnet01/app/IhreApp.dll   <-- Name anpassen
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=ihreapp <-- anpassen
+User=ihrusername                 <-- anpassen, User vorher anlegen
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+Environment=ASPNETCORE_URLS=http://+:5000                 <-- Port anpassen.
+[Install]
+WantedBy=multi-user.target
+```
+
+Dann aufrufen:
+
+```
+sudo systemctl enable /pfad/auf/Ihre/.service-datei/ihreapp.service
+sudo systemctl start ihreapp.service
+```
+
+Nach Änderungen an der .service-Datei:
+
+```
+systemctl daemon-reload
+```
+
+Nach Änderungen der Anwendung (Deployment):
+
+```
+systemctl restart ihreapp.service
+```
+
+Überprüfen der Startphase der Anwendung:
+
+```
+journalctl -xeu ihreapp
+```
+
+Der zweite Parameter muss dem Parameter SyslogIdentifier in der .service-Datei entsprechen.
+
+## Verzeichnisberechtigungen
+
+Dazu benötigen Sie unter Umständen Access Control Lists. Die Tools dafür installieren Sie mit
+
+```
+sudo apt-get install acl
+```
+
+1. Benutzer anlegen
+```
+sudo useradd -s /usr/sbin/nologin aspnethosting
+```
+
+2. www-data Ihrer Benutzergruppe hinzufügen
+
+```
+sudo usermod -a -G aspnethosting www-data
+```
+
+3. Den neuen Benutzer zum Owner des Verzeichnisbaums machen
+
+```
+sudo chown -R aspnethosting:aspnethosting /var/www/aspnethosting/app
+```
+
+4. Datei- und Verzeichnismodi setzen
+```
+#!/bin/bash
+find $1 -type d -exec chmod 750 {} \;
+find $1 -type f -exec chmod 640 {} \;
+```
+
+5. Access Control Lists für non-root Accounts anlegen
+
+```
+sudo setfacl -R -m u:ihrusername:rwx /var/www/aspnethosting/app
+sudo setfacl -Rd -m u:ihrusername:rwx /var/www/aspnethosting/app
+sudo setfacl -R -m m:rwx /var/www/aspnethosting/app   
+```
+
+Das kann mit in den Batch für die Verzeichnismodi:
+
+```
+setfacl -R -m u:ihrusername:rwx $1
+setfacl -Rd -m u:ihrusername:rwx $1
+setfacl -R -m m:rwx /$1  
+```
+Die Batch-Datei ausführbar machen:
+
+```
+sudo chmod +x /var/www/aspnethosting/setperm
+```
+
+### Test der Site nach dem Einrichten
+
+```
+sudo -u aspnethosting /bin/bash
+dotnet /var/www/aspnethosting/app/AspNetHosting.dll &
+```
+
+Prozess beenden:
+
+```
+ps
+```
+Zeigt die laufenden Prozesse mit Nummer an
+
+```
+kill xxxx
+```
+
+Prozess mit Nummer abschießen.
+
+## Locations
+
+location = /robots.txt {
+    alias /var/www/aspnethosting/robots.txt;
+}
+
+[Mehr Info über Locations](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)
+
+## Backup
+
+```
+#!/bin/bash
+docker exec -t sqlexpress /opt/mssql-tools/bin/sqlcmd -S localhost -U aspnethosting -P aspnethosting12 -Q "BACKUP DATABASE AspNetHosting TO DISK = '/var/opt/mssql/data/aspnethosting.bak';"
+```
+
+S = Servername
+U = Benutzername im SqlServer
+P = Passwort
+Q = Befehl der ausgeführt werden soll
+
+### Cron-Job
+
+Eine Datei mit folgendem Inhalt anlegen:
+
+```
+0 3	* * *	root	/var/www/aspnethosting/config/do-backup > /var/www/aspnethosting/backup/backup-log.txt 2>&1
+```
+
+Uhrzeit, Batch-Name, Pfad für die Log-Datei anpassen.
+Einen Link im Verzeichnis `/etc/cron.d` anlegen.
+
+## Basic Authentication für Staging Sites
+
+Server-Datei ergänzen:
+
+```
+    auth_basic "Aspnet Staging Site";
+    auth_basic_user_file /var/www/aspnethosting/config/.htpasswd;
+```
+
+Schritt 1:
+
+```
+sudo echo -n 'ihrusername:' >> /var/www/aspnethosting/config/.htpasswd
+```
+
+Schritt 2:
+
+```
+sudo openssl passwd -apr1 >> /var/www/aspnethosting/config/.htpasswd
+```
+
+Test und Reload nicht vergessen:
+
+```
+sudo nginx -t
+sudo nginx -s reload
+```
+
+## Neue Sudo-User anlegen
+
+1. User anlegen
+
+```
+sudo useradd -m -d /home/bob bob
+```
+
+2. Zu den Sudoern hinzufügen
+
+```
+sudo usermod -aG sudo bob
+```
+
+3. authorized_keys-Datei in `/home/bob/.ssh/authorized_keys` anlegen und Schlüssel _in eine Zeile_ pasten
+
+```
+ecdsa-sha2-nistp521 AAAAE2VjZHgaaanzviiiiieleZeichen== bob@aspnethosting
+```
+
+4. Dateirechte setzen
+
+```
+sudo chown -R bob:bob /home/bob
+sudo chmod 600 /home/bob/.ssh/authorized_keys
+```
+
+5. Initiales Passwort für Sudo
+
+```
+sudo passwd bob
+```
+Das Passwort sollte bob sofort nach dem ersteb Einloggen ändern. Niemand kann eine SSH-Sitzung mit dem Passwort beginnen, wenn der Passwort-Login disabled ist, dennoch ist das sauberer.
+
+### Löschen eines Users
+
+```
+sudo userdel -r bob
+```
+
+## Anlegen einer CA
+
+[Link zur Easy-RSA-Site](https://github.com/OpenVPN/easy-rsa)
+
+Link zu .tgz-Datei kopieren.
+
+Download
+
+```
+wget https://github.com/OpenVPN/easy-rsa/releases/download/v3.1.5/EasyRSA-3.1.5.tgz
+```
+
+Entpacken
+
+```
+tar -xvzf EasyRSA-3.1.5.tgz
+```
+
+Im Easy-RSA-Verzeichnis: vars.sample in vars umbenennen, Defaults anpassen und dann:
+
+```
+sudo chmod +x easyrsa
+```
+
+Initialisieren
+
+```
+./easyrsa init-pki
+```
+
+CA-Zertifikat anlegen:
+
+```
+./easyrsa build-ca
+```
+
+Certificate Request anlegen:
+
+```
+./easyrsa gen-req mirko
+```
+
+Signieren:
+
+```
+./easyrsa sign-req client mirko
+```
+
+Für Windows eine .p12-Datei erzeugen:
+
+```
+openssl pkcs12 -export -out mirko.p12 -inkey /home/mirko/EasyRSA-3.1.5/pki/private/mirko.key -in /home/mirko/EasyRSA-3.1.5/pki/issued/mirko.crt
+```
+
+Passen sie die Pfade auf die Schlüssel- und Zertifikatsdateien an.
+
+Server-Zertifikate können mit Easy-Rsa ebenso angelegt werden. Der Common Name (CN) muss beim Anlegen des Requests dem Hostnamen entsprechen. 
+
+```
+./easyrsa sign-req server yourservername
+```
+
+Das Schlüsselpaar kann dann in Nginx verwendet werden:
+
+```
+    ssl_certificate /pfad/zu/Ihrer/.crt-Datei/yourservername.crt;
+    ssl_certificate_key /pfad/zu/Ihrer/.key-Datei/yourservername.key;
+    listen 443 ssl http2;
+    # Wenn Ihr Schlüssel passwortgeschützt ist,
+    # das Passwort in eine Datei legen und diese Zeile auskommentieren:
+    # ssl_password_file /var/lib/nginx/ssl_passwords;
+    # Zugriffsschutz für die Datei nicht vergessen!
+```
+
+
 ## Autor
 
 Mirko Matytschak
 
-Software-Entwickler und -Berater
+Mirko Matytschak programmiert schon seit den Vorversionen im Jahr 2000 mit .NET. Seit diesen ersten Tagen nutzt er als Software-Entwickler und -Berater Architekturen auf Basis von .NET und entwickelt Software auf Basis von C#.
+Er ist CEO und CTO der [FORMFAKTEN GmbH](https://www.formfakten.de) und Entwickler des relationalen Mapping-Tools [.NET Data Objects (NDO)](https://www.netdataobjects.de).
 
-Sehen Sie sich andere Kurse des Autors auf [LinkedIn Learning](https://www.linkedin.com/learning/instructors/name_des_autors) an.
+Sehen Sie sich andere Kurse des Autors auf [LinkedIn Learning](https://www.linkedin.com/learning/instructors/mirko-matytschak) an.
 
 [0]: # (Replace these placeholder URLs with actual course URLs)
 [lil-course-url]: https://www.linkedin.com
