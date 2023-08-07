@@ -379,7 +379,7 @@ Ein funktionierendes Beispielpaar für eine Server- und Client-Konfiguration fin
 
 ### Easy-Rsa
 
-Das ist Script, die Sie unter Linux ausführen können. Zum Einrichten folgen Sie [dieser Beschreibung](#anlegen-einer-ca) und dem Kapitel "Certificate Authority einrichten". Sie benötigen das Zertifikat der CA (ca.crt) auf der Client- und Serverseite sowie die beiden Dateien des Client-Zertifikats auf der Client-Seite.
+Das ist ein Script, die Sie unter Linux ausführen können. Zum Einrichten folgen Sie [dieser Beschreibung](#anlegen-einer-ca) und dem Kapitel "Certificate Authority einrichten". Sie benötigen das Zertifikat der CA (ca.crt) auf der Client- und Serverseite sowie die beiden Dateien des Client-Zertifikats auf der Client-Seite.
 
 ### OpenVPN Start
 
