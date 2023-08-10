@@ -409,13 +409,28 @@ Es muss eine Site mit Http erreichbar sein. Die Server-Datei für Nginx muss ent
 ```
 server
 {
-    server_name test.sv4.laykit.de;
+    server_name ihre.domaene.de;
     root /var/www/testsite/app;
 	index index.html;
 
     listen 80;
 }
 ```
+Dann certbot aufrufen:
+
+```
+sudo certbot --nginx -d ihre.domaene.de
+```
+
+### Zertifikat zurückziehen
+
+```
+certbot revoke --cert-name example.com
+```
+
+Sie werden gefragt, ob Sie die Zertifikatsdateien löschen wollen. Das können Sie bestätigen.
+
+Die Zertifikate liegen unter /etc/letsencrypt. Dort liegen auch die Konfigurationsdateien für die Renewals.
 
 ## ASP.NET
 
