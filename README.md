@@ -2,9 +2,7 @@
 
 Dies ist das Repository für den **LinkedIn Learning** Kurs `[COURSENAME]`. Den gesamten Kurs finden Sie auf [LinkedIn Learning][lil-course-url].
 
-![COURSENAME][lil-thumbnail-url] 
-
-[COURSEDESCRIPTION]
+In diesem Kurs lernen Sie alles, was Sie benötigen um ein Linux-System einzurichten, auf dem Sie eine ASP.NET-Applikation zum Laufen bringen können. Sie sollten in der Lage sein, eine Anwendung so zu installieren, dass Sie diese im Internet veröffentlichen können.
 
 ## Inhaltsverzeichnis
 Ein Inhaltsverzeichnis finden Sie, wenn Sie oben neben dem Dateinamen README.md auf das Menü-Symbol klicken:
