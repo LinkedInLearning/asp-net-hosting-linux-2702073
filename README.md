@@ -659,9 +659,9 @@ Für die öffentliche Domäne trägt man folgendes ein:
 
 ```
     location = /robots.txt {
-        alias /var/www/aspnethosting/app/wwwroot/robots.txt ;	<-- erlaubt die Indizierung
+        alias /var/www/aspnethosting/app/wwwroot/robots.txt ;    <-- erlaubt die Indizierung
     }
-    location = /umbraco {					<-- Backoffice wird nicht gefunden
+    location = /umbraco {                                        <-- Backoffice wird nicht gefunden
         return 404;
     }
 ```
