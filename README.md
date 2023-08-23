@@ -660,7 +660,7 @@ Eine Datei mit folgendem Inhalt anlegen:
 ```
 
 Uhrzeit, Batch-Name, Pfad für die Log-Datei anpassen.
-Einen Link im Verzeichnis `/etc/cron.d` anlegen.
+Einen Link im Verzeichnis `/etc/cron.d` anlegen. **Achtung:** Dateien / Links in cron.d dürfen keinen Punkt und kein Minuszeichen im Namen haben. Sonst werden sie ignoriert.
 
 ## Basic Authentication für Staging Sites
 
