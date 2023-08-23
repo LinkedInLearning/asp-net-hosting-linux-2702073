@@ -645,7 +645,7 @@ location = /robots.txt {
 }
 ```
 ### Zugriff auf Locations begrenzen
-Die Idee ist, die Verwaltungsoberfläche /umbraco nicht über den öffentlich bekannten Host zuzulassen, sondern nur über technische Hosts.
+Die Idee ist, die Verwaltungsoberfläche /umbraco nicht über den öffentlich bekannten Host zuzulassen, sondern nur über technische Hosts, die dann zum Beispiel nur über das lokale Netzwerk erreichbar sind.
 Das geht so, dass man zwei Server-Dateien anlegt, eine für die technische Domäne und eine für die öffentliche Domäne. Die legt man mit Port 80 an und lässt Certbot die SSL-Konfiguration eintragen. Für die technische Domäne trägt man dann folgendes ein:
 
 ```
