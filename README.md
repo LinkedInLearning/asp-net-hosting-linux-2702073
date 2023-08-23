@@ -445,7 +445,15 @@ certbot revoke --cert-name example.com
 
 Sie werden gefragt, ob Sie die Zertifikatsdateien löschen wollen. Das können Sie bestätigen.
 
-Die Zertifikate liegen unter /etc/letsencrypt. Dort liegen auch die Konfigurationsdateien für die Renewals.
+Die Zertifikate liegen unter /etc/letsencrypt.
+
+Renew-Anweisung liegt in /etc/cron.d/certbot:
+
+```
+0 \*/12 \* \* \* root test -x /usr/bin/certbot -a <span dir="">!</span> -d /run/systemd/system && perl -e 'sleep int(rand(43200))' && certbot -q renew
+```
+
+Der Cron-Eintrag wurde vom certbot selbst eingetragen. Die renewals liegen in /etc/letsencrypt/renewal
 
 ## ASP.NET
 
