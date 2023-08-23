@@ -644,6 +644,38 @@ location = /robots.txt {
     alias /var/www/aspnethosting/robots.txt;
 }
 ```
+### Zugriff auf Locations begrenzen
+Die Idee ist, die Verwaltungsoberfläche /umbraco nicht über den öffentlich bekannten Host zuzulassen, sondern nur über technische Hosts.
+Das geht so, dass man zwei Server-Dateien anlegt, eine für die technische Domäne und eine für die öffentliche Domäne. Die legt man mit Port 80 an und lässt Certbot die SSL-Konfiguration eintragen. Für die technische Domäne trägt man dann folgendes ein:
+
+```
+    location = /robots.txt {
+        alias /var/www/gitlab/robots.txt ;
+    }	
+```
+Das ist eine Version der robots.txt, die die Indizierung ablehnt. Die kann geladen werden, weil das von www-data ausgeliefert wird und www-data ein Mitglied der Benutzergruppe der Site ist.
+
+Für die öffentliche Domäne trägt man folgendes ein:
+
+```
+    location = /robots.txt {
+        alias /var/www/zeilenmacher/app/wwwroot/robots.txt ;	<-- erlaubt die Indizierung
+    }
+    location = /umbraco {                                           <-- Backoffice wird nicht gefunden
+        return 404;
+    }
+```
+
+Hier ist ebenfalls eine gute Idee:
+
+```
+    location /umbraco {
+        # Erlaube Zugriff von einer IP und zusätzlich von einem IP-Bereich:
+        allow 1.2.3.4;
+        allow 192.168.0.0/24;
+        deny all;
+    }
+```
 
 [Mehr Info über Locations](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)
 
