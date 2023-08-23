@@ -20,6 +20,23 @@ sudo passwd -l root
 ```
 Auch wenn ich meine eigenen Systeme mit root betreibe, versuche ich, im Folgenden die Anweisungen mit sudo anzugeben. Das vorangestellte sudo schadet nicht, wenn Sie als root eingeloggt sind.
 
+## Zeitzone
+Zu diesem Text gibt es kein Video.
+
+Mit
+
+```plaintext
+timedatectl
+```
+
+kann man sich anzeigen lassen, wie die Zeitzone eingestellt ist. Wenn sie nicht auf CET eingestellt ist, dann kann man das mit
+
+```plaintext
+dpkg-reconfigure tzdata
+```
+
+einstellen. Die LocalTime ist wichtig für Umbraco, damit im Backoffice die richtige Zeit steht.
+
 ## SSH einrichten
 
 Erst einmal überprüfen, ob SSH installiert ist:
