@@ -631,9 +631,11 @@ Prozess mit Nummer abschießen.
 
 ## Locations
 
+```
 location = /robots.txt {
     alias /var/www/aspnethosting/robots.txt;
 }
+```
 
 [Mehr Info über Locations](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)
 
