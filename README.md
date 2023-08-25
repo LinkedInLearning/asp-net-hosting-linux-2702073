@@ -844,6 +844,22 @@ Das Schlüsselpaar kann dann in Nginx verwendet werden:
     # Zugriffsschutz für die Datei nicht vergessen!
 ```
 
+### Zurückziehen von Zertifikaten
+
+Das dürfte beim Ausscheiden von Mitarbeitern von Bedeutung sein. Die ausgestellten Zertifikate müssen als .crt-Datei unbedingt aufgehoben werden!
+
+./easyrsa revoke xxxxx      <- Name des Zertifikats = Dateiname ohne Endung
+./easyrsa gen-crl
+
+Dann liegt eine crl.pem im Verzeichnis pki. In der Nginx-Serverdatei muss die zusätzliche Zeile rein:
+
+```
+	ssl_client_certificate /var/www/aspnethosting/config/ca.crt;
+	ssl_crl /var/www/aspnethosting/config/crl.pem;
+    ...
+```
+
+Nach Auslieferung der crl.pem Nginx reloaden.
 
 ## Autor
 
