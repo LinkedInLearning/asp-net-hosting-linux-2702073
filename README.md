@@ -471,8 +471,7 @@ wird das Interface gestartet und müsste dann einen reboot überstehen.
 
 Unter Windows gibt es den WireGuard-Client. Sehr komfortabel. Sie legen einen Tunnel mit "Einen leeren Tunnel hinzufügen" an:
 
-![grafik](https://github.com/LinkedInLearning/asp-net-hosting-linux-2702073/assets/43751391/71d5707d-6030-42dc-ab54-53bebc44bb6a)
-
+![grafik](https://github.com/LinkedInLearning/asp-net-hosting-linux-2702073/assets/43751391/cbd8b38c-ca20-481b-b0a7-1719c04320b6)
 
 Den kann man dann bearbeiten und dabei sehen Sie eine Datei, die der Datei auf dem Server ähnelt und die Sie editieren, sodass sie am Ende so aussieht:
 
