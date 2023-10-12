@@ -351,6 +351,8 @@ Port 3306 ist für MariaDb, Port 1433 für SqlServer.
 
 ### OpenVPN
 
+Im Video empfehle ich noch die Verwendung von OpenVPN. Allerdings sind wir mit unserer Firma mittlerweile auf WireGuard umgestiegen. Der Grund dafür ist, dass WireGuard Teil des Linux-Kernels ist und daher vom Linux-Team gewartet wird. Laut Kommentar von Linus Thorvalds besticht WireGuard durch seine Einfachheit und einer sehr geringen Angriffsoberfläche.
+
 [Ausführliche Beschreibung](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-18-04-de)
 
 Wenn Sie OpenVPN schon auf Windows-Servern genutzt haben: die Konfiguration funktioniert auch auf Linux (Zeilenenden in der Konfigurationsdatei auf Linux umstellen). 
@@ -410,6 +412,84 @@ Die Endung @server matcht mit dem Namen der .conf-Datei.
 systemctl status openvpn@server
 ip addr show tun0
 ```
+
+## Wireguard
+Wireguard ist in Ubuntu vorinstalliert. Was man braucht, sind die Tools:
+
+```
+apt install wireguard-tools
+```
+
+Dann braucht es im Verzeichnis /etc/wireguard für jede Verbindung eine Datei. Eine Verbindung ist ein virtuelles Device, die haben Namen wir wg0, wg1 etc. Die dafür nötige Datei muss heißen wie das Interface, z.B. `wg0.conf`. Eine solche Konfigurationsdatei sieht wie folgt aus:
+
+```
+[Interface]
+PrivateKey = base64codierterPrivateKey.
+Address = 10.8.2.1/32
+ListenPort = 51821
+ 
+#
+# Reload Config:
+#
+# wg syncconf wg0 <(wg-quick strip wg0)
+#
+ 
+# Mirko
+[Peer]
+PublicKey = base64codierterPublicKey des Teilnehmers
+AllowedIPs = 10.8.2.2/32
+# Weitere Peers (=Clients)
+```
+
+Um die Keys anzulegen:
+
+```
+wg genkey > private
+wg pubkey < private > public
+```
+
+Die Dateien können hinterher weggeworfen werden, wenn man die Keys entsprechend verteilt hat. Wenn sie nicht weggeworfen werden, muss die private-Datei mit chmod auf 600 gesetzt werden, sodass die nur vom Benutzer selbst gelesen und geschrieben werden kann.
+
+Der PrivateKey wird nun an entsprechender Stelle in die Config eingefügt und der PublicKey wird in der Config-Datei auf der Gegenseite eingefügt.
+
+Wenn Sie ein Subnetz mit 10.8.2.0/24 anleen, dann können Sie dem Server die Address 10.8.2.1/32 geben. Für den Peer vergeben Sie die 10.8.2.2, für mehrere Peers geht's dann nach oben weiter mit 3,4 etc.
+
+Das Port 51821 muss in ufw für Udp freigegeben werden (Tcp ist nicht nötig):
+
+```
+sudo ufw allow 51821/udp
+```
+
+Mit 
+
+```
+wg-quick up wg01
+```
+wird das Interface gestartet und müsste dann einen reboot überstehen.
+
+### WireGuard Windows
+
+Unter Windows gibt es den WireGuard-Client. Sehr komfortabel. Sie legen einen Tunnel mit "Einen leeren Tunnel hinzufügen" an:
+
+![grafik](https://github.com/LinkedInLearning/asp-net-hosting-linux-2702073/assets/43751391/ff998f8d-0280-483c-b86a-9fa710f892d9)
+
+Den kann man dann bearbeiten und dabei sehen Sie eine Datei, die der Datei auf dem Server ähnelt und die Sie editieren, sodass sie am Ende so aussieht:
+
+```
+[Interface]
+PrivateKey = EinNeuerBase64CodierterPrivateKey
+Address = 10.8.2.2/32
+
+[Peer]
+PublicKey = DerPublicKeyDesServers
+AllowedIPs = 10.8.2.1/32
+Endpoint = 88.198.22.19:51821
+```
+
+Der Unterschied zur Server-Konfiguration ist, dass wir für den Peer einen Endpoint definieren, das ist die im Internet öffentliche Adresse des Servers mit dem Port, das wir in der Server-Config definiert haben, in dem Fall 51821.
+
+Die eigene Adresse ist dann die 2, 3, 4 etc., wie im Server dem eigenen Public Key zugewiesen. Die Adresse des Servers ist die 1, das muss matchen mit der Adresse in der Server-Config.
+
 ## Certbot
 
 ### Installation
