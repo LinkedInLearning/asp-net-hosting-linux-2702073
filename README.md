@@ -420,7 +420,7 @@ Wireguard ist in Ubuntu vorinstalliert. Was man braucht, sind die Tools:
 apt install wireguard-tools
 ```
 
-Dann braucht es im Verzeichnis /etc/wireguard für jede Verbindung eine Datei. Eine Verbindung ist ein virtuelles Device, die haben Namen wir wg0, wg1 etc. Die dafür nötige Datei muss heißen wie das Interface, z.B. `wg0.conf`. Eine solche Konfigurationsdatei sieht wie folgt aus:
+Dann braucht es im Verzeichnis /etc/wireguard für jede Verbindung eine Datei. Eine Verbindung ist ein virtuelles Device, die haben Namen wie wg0, wg1 etc. Die dafür nötige Datei muss heißen wie das Interface, z.B. `wg0.conf`. Eine solche Konfigurationsdatei sieht wie folgt aus:
 
 ```
 [Interface]
