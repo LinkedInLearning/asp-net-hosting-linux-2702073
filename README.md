@@ -413,7 +413,7 @@ systemctl status openvpn@server
 ip addr show tun0
 ```
 
-## Wireguard
+### Wireguard
 Wireguard ist in Ubuntu vorinstalliert. Was man braucht, sind die Tools:
 
 ```
@@ -467,7 +467,7 @@ wg-quick up wg01
 ```
 wird das Interface gestartet und müsste dann einen reboot überstehen.
 
-### WireGuard Windows
+#### WireGuard Windows
 
 Unter Windows gibt es den WireGuard-Client. Sehr komfortabel. Sie legen einen Tunnel mit "Einen leeren Tunnel hinzufügen" an:
 
