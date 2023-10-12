@@ -351,7 +351,7 @@ Port 3306 ist für MariaDb, Port 1433 für SqlServer.
 
 ### OpenVPN
 
-Im Video empfehle ich noch die Verwendung von OpenVPN. Allerdings sind wir mit unserer Firma mittlerweile auf WireGuard umgestiegen. Der Grund dafür ist, dass WireGuard Teil des Linux-Kernels ist und daher vom Linux-Team gewartet wird. Laut Kommentar von Linus Thorvalds besticht WireGuard durch seine Einfachheit und einer sehr geringen Angriffsoberfläche.
+Im Video empfehle ich noch die Verwendung von OpenVPN. Allerdings sind wir mit unserer Firma mittlerweile auf WireGuard umgestiegen - siehe die [Installations-Anleitung](https://github.com/LinkedInLearning/asp-net-hosting-linux-2702073/blob/main/README.md#wireguard). Der Grund dafür ist, dass WireGuard Teil des Linux-Kernels ist und daher vom Linux-Team gewartet wird. Laut Kommentar von Linus Thorvalds besticht WireGuard durch seine Einfachheit und einer sehr geringen Angriffsoberfläche.
 
 [Ausführliche Beschreibung](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-18-04-de)
 
