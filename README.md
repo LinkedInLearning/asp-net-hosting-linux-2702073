@@ -1,8 +1,11 @@
-# ASP.NET Hosting in Linux
+# ASP.NET: Hosting auf Linux
 
-Dies ist das Repository für den **LinkedIn Learning** Kurs `[COURSENAME]`. Den gesamten Kurs finden Sie auf [LinkedIn Learning][lil-course-url].
+Dies ist das Repository für den **LinkedIn Learning** Kurs `ASP.NET: Hosting auf Linux. Den gesamten Kurs finden Sie auf [LinkedIn Learning][lil-course-url].
+[![COURSENAME][lil-thumbnail-url] 
 
-In diesem Kurs lernen Sie alles, was Sie benötigen um ein Linux-System einzurichten, auf dem Sie eine ASP.NET-Applikation zum Laufen bringen können. Sie sollten in der Lage sein, eine Anwendung so zu installieren, dass Sie diese im Internet veröffentlichen können.
+ASP.NET-Anwendungen auf Linux zu hosten gilt als elegante Lösung und bietet viele Vorteile, die in erster Linie auf die Flexibilität, Anpassbarkeit, Skalierbarkeit und Sicherheit des offenen und kostenlosen Betriebssystems zurückzuführen sind. Zudem unterstützt Linux neben ASP.NET auch viele andere Webentwicklungstechnologien, wie Perl, PHP, MySQL, Python oder Ruby.<br><br>
+
+Mirko Matytschak erläutert in seinem LinkedIn Learning-Kurs alle Schritte, die beim Aufbau eines solchen Hosting-Systems eine Rolle spielen: Er beginnt bei den Vorüberlegungen zur Auswahl der Komponenten, zeigt die komplette Installation eines Linux-Servers und die Einrichtung der Applikation inklusive Backup- und Security-Strategien.
 
 ## Inhaltsverzeichnis
 Ein Inhaltsverzeichnis finden Sie, wenn Sie oben neben dem Dateinamen README.md auf das Menü-Symbol klicken:
@@ -951,5 +954,5 @@ Er ist CEO und CTO der [FORMFAKTEN GmbH](https://www.formfakten.de) und Entwickl
 Sehen Sie sich andere Kurse des Autors auf [LinkedIn Learning](https://www.linkedin.com/learning/instructors/mirko-matytschak) an.
 
 [0]: # (Replace these placeholder URLs with actual course URLs)
-[lil-course-url]: https://www.linkedin.com
-[lil-thumbnail-url]: https:
+[lil-course-url]: https://www.linkedin.com/learning/asp-dot-net-hosting-auf-linux
+[lil-thumbnail-url]: https://media.licdn.com/dms/image/D560DAQEDgZA1OT6Msg/learning-public-crop_675_1200/0/1698145672690?e=2147483647&v=beta&t=qdKkKLDIjxCN38r1lP3hG1ckA7v2UUIYY7lMdIUQaQE
