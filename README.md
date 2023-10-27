@@ -1,6 +1,6 @@
 # ASP.NET: Hosting auf Linux
 
-Dies ist das Repository für den **LinkedIn Learning** Kurs `ASP.NET: Hosting auf Linux. Den gesamten Kurs finden Sie auf [LinkedIn Learning][lil-course-url].
+Dies ist das Repository für den **LinkedIn Learning** Kurs `ASP.NET: Hosting auf Linux`. Den gesamten Kurs finden Sie auf [LinkedIn Learning][lil-course-url].
 [![COURSENAME][lil-thumbnail-url] 
 
 ASP.NET-Anwendungen auf Linux zu hosten gilt als elegante Lösung und bietet viele Vorteile, die in erster Linie auf die Flexibilität, Anpassbarkeit, Skalierbarkeit und Sicherheit des offenen und kostenlosen Betriebssystems zurückzuführen sind. Zudem unterstützt Linux neben ASP.NET auch viele andere Webentwicklungstechnologien, wie Perl, PHP, MySQL, Python oder Ruby.<br><br>
