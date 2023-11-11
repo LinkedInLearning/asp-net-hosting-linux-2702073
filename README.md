@@ -783,7 +783,10 @@ Eine Datei mit folgendem Inhalt anlegen:
 ```
 
 Uhrzeit, Batch-Name, Pfad für die Log-Datei anpassen.
-Einen Link im Verzeichnis `/etc/cron.d` anlegen. **Achtung:** Dateien / Links in cron.d dürfen keinen Punkt und kein Minuszeichen im Namen haben. Sonst werden sie ignoriert.
+Einen Link im Verzeichnis `/etc/cron.d` anlegen. 
+**Achtung:** Der verwendete Linki-name im Video wird nicht funktionieren. Dateien / Links in cron.d dürfen keinen Punkt im Namen haben. Sonst werden sie ignoriert. Siehe die [man-page zu diesem Thema](https://manpages.ubuntu.com/manpages/lunar/en/man8/cron.8.html):
+
+_The file names must conform to the filename requirements of run-parts:  they  must  be  entirely  made  up  of letters,  digits  and  can  only  contain  the special signs underscores ('\_') and hyphens ('-'). Any file that does not conform to these requirements will not be executed by  run-parts._
 
 ## Basic Authentication für Staging Sites
 
