@@ -63,10 +63,15 @@ Nach dem Install läuft der Server gleich los, was man wiederum mit `systemctl s
 
 ### Schlüssel erzeugen
 
+Im Video zeige ich noch die folgenden Parameter:
 ```
 ssh-keygen -f ./ihrname -t ecdsa -b 521
 ```
-Das erzeugt ihrname und ihrname.pub. Natürlich können Sie statt ihrname Ihren Namen verwenden...
+Und die Angabe der Schlüssellänge 521 Bytes war falsch. Es muss natürlich Bits heißen. Wir benutzen in der Firma
+```
+ssh-keygen -f ./ihrname -t ed25519
+```
+Das erzeugt eine Elliptic Curve nach neuestem Stand der Technik.
 
 ```
 cd ~
