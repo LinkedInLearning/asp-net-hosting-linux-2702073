@@ -340,13 +340,13 @@ exit
 Die Zeilen müssen Sie nacheinander eingeben, weil mariadb eine Db-Konsole öffnet.
 
 ## Remote-Administration
-Wenn Sie später ein VPN für die Administration einrichten, benötigen Sie einen Benutzer, der aus dem Netzwerk stammt. Das richtet man so ein:
+Wenn Sie später ein VPN für die Administration einrichten, benötigen Sie einen Benutzer, der aus dem Netzwerk stammt. Angenommen, Sie haben ein VPN mit dem Subnetz 10.1.1.0/24 eingerichtet. Dann legt man den remote Admin so an:
 
 ```
 GRANT ALL ON *.* TO 'admin'@'10.1.1.%' IDENTIFIED BY 'ihrpassword' WITH GRANT OPTION;
 ```
 
-Wenn Sie Ihr Subnetz auf 10.1.1.0/24 eingerichtet haben, kann sich der admin aus diesem Subnetz anmelden.
+Nun kann sich der admin aus diesem Subnetz anmelden.
 
 Dazu müssen Sie die ensprechenden Ports innerhalb des Subnetzes freigeben:
 
