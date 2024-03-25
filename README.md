@@ -738,7 +738,7 @@ Das geht so, dass man zwei Server-Dateien anlegt, eine für die technische Domä
 
 ```
     location = /robots.txt {
-        alias /var/www/gitlab/robots.txt ;
+        alias /var/www/disallow/robots.txt ;
     }	
 ```
 Das ist eine Version der robots.txt, die die Indizierung ablehnt. Die kann geladen werden, weil das von www-data ausgeliefert wird und www-data ein Mitglied der Benutzergruppe der Site ist.
