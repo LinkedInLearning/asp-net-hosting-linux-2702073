@@ -545,11 +545,22 @@ Der Cron-Eintrag wurde vom certbot selbst eingetragen. Die renewals liegen in /e
 
 ## ASP.NET
 
-Installation:
+Es gibt in Ubuntu und Debian Pakete, die mit der Distribution ausgeliefert werden. Verwenden Sie diese Pakete nicht, denn diese weisen Inkompatibilitäten der Reference-Assemblies.  
+
+Statt dessen installieren Sie erst einmal die Microsoft Paketquelle:
 ```
-sudo apt install dotnet6
+wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
 ```
-Test
+Dann können Sie ASP.NET installieren:
+
+```
+apt-get update
+apt-get install -y dotnet-sdk-8.0
+```
+
+Test nach der Installation:
 
 ```
 dotnet --version
