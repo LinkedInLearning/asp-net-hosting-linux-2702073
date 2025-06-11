@@ -71,12 +71,13 @@ Und die Angabe der Schlüssellänge 521 Bytes war falsch. Es muss natürlich Bit
 ```
 ssh-keygen -f ./ihrname -t ed25519
 ```
-Das erzeugt eine Elliptic Curve nach neuestem Stand der Technik.
+
+Das erzeugt eine Elliptic Curve nach neuestem Stand der Technik. Den öffentlichen Schlüssel können Sie in die Zwischenablage kopieren und zwischen die Anführungsstriche der unten stehenden Zeile `echo "" > .ssh/authorized_keys` einfügen.
 
 ```
 cd ~
 mkdir .ssh
-echo "ecdsa-sha2-nistp521 GAAAAAAANZ_VIELE_ZEICHEN== mirko matytschak@W10" > .ssh/authorized_keys
+echo "ssh-ed25519 AAAAC3N-ganz-viele-Zeichen-O1Ub5 mirko@W10" > .ssh/authorized_keys
 ```
 Dann den privaten Schlüssel mittels PuttyGen in das .ppk-Format konvertieren.
 Der private Schlüssel kann dann in Putty und WinScp unter SSH/Authorization eingegeben werden. Es erfolgt dann ein Login via Key.
