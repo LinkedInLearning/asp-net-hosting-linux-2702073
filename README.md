@@ -491,7 +491,7 @@ Address = 10.8.2.2/32
 [Peer]
 PublicKey = DerPublicKeyDesServers
 AllowedIPs = 10.8.2.1/32
-Endpoint = 88.198.22.19:51821
+Endpoint = 188.188.188.188:51821
 ```
 
 Der Unterschied zur Server-Konfiguration ist, dass wir für den Peer einen Endpoint definieren, das ist die im Internet öffentliche Adresse des Servers mit dem Port, das wir in der Server-Config definiert haben, in dem Fall 51821.
